@@ -6,17 +6,41 @@
 
 ## Description
 
-_This app dives into the *company* endpoint of the ChowNow API and uses a simple list/detail UI to demonstrate the fetching of restaurant data.
-It includes a separate module **chow-now-api** that leverages Retrofit to communicate with the API and extract the desired information._
+This app dives into the **company** endpoint of the ChowNow API and uses a simple list/detail UI to demonstrate the fetching of restaurant data.  
 
-_The **chow-now-api** only focuses on desired fields: location name, formatted address, latitude, longitude._
+It includes a separate module **chow-now-api** that leverages Retrofit to communicate with the API and extract the desired information. It only focuses on desired fields: location name, formatted address, latitude, longitude.
 
 ## Setup
 
 1. Use Android Studio or Gradle script to build the app
 2. Run the tests in module **app** if needed
 
-### Legal
+## Engineering choices
+
+### Architecture
+
+The architecture follows an MVVM approach. Longer term, it could have a few more abstractions around the Jetpack libraries to ease adaptations down the road.
+
+### ChowNow API
+
+The **chow-now-api** module allows a better separation of concerns and can in fine publish its own library to a centralized repo.
+
+The **chow-now-api** module leverages Retrofit to create an API wrapper and converts JSON responses into models only targeting desired fields.
+
+The **RestaurantRepository** interface allows for various implementations such as **RestaurantRemoteRepository** leveraging the **ChowNowApi** interface. If time allows, it could also lead to a **LocalRestaurantRepository** leveraging Room to cache API results and serve them first when not expired.
+
+### Mapping
+
+Mapping is currently done via [osmdroid](https://github.com/osmdroid/osmdroid/wiki/How-to-use-the-osmdroid-library-(Kotlin)) as it is straightforward to integrate and use without any specific developer account.  
+For more reliable mapping services and customer support, it would be better to leverage [HERE Android SDK](https://developer.here.com/documentation/android-sdk-navigate/4.10.2.0/dev_guide/index.html), or Mapbox, or Google Maps.
+
+### Layout
+
+UI layouts are in XML but a migration to Compose could be beneficial as the industry moves towards it.  
+
+### Dependency injection
+
+## Legal
 
 Copyright (c) 2022 **_Boris Guenebaut_**
 
