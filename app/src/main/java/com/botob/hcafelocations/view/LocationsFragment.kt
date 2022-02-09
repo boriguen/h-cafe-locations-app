@@ -91,8 +91,10 @@ class LocationsFragment : Fragment() {
     }
 
     private fun triggerLocationsUpdate() {
+        binding.progressBar.visibility = View.VISIBLE
         lifecycleScope.launch {
             viewModel.updateLocations(RESTAURANT_ID)
+            binding.progressBar.visibility = View.INVISIBLE
         }
     }
 

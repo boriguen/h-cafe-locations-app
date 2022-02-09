@@ -29,6 +29,12 @@ The **chow-now-api** module leverages Retrofit to create an API wrapper and conv
 
 The **RestaurantRepository** interface allows for various implementations such as **RestaurantRemoteRepository** leveraging the **ChowNowApi** interface. If time allows, it could also lead to a **LocalRestaurantRepository** leveraging Room to cache API results and serve them first when not expired.
 
+### List view
+
+The current list view is a RecyclerView following the standard guidelines. However, it does not handle loading, empty and errors nicely.
+
+Implementing a compound view in the future as described in this [Medium article](https://susuthapa19961227.medium.com/recycler-view-with-empty-view-loading-view-and-error-view-1266c34c1504) should make it much nicer.
+
 ### Mapping
 
 Mapping is currently done via [osmdroid](https://github.com/osmdroid/osmdroid/wiki/How-to-use-the-osmdroid-library-(Kotlin)) as it is straightforward to integrate and use without any specific developer account.  
