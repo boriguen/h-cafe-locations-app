@@ -5,15 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.botob.hcafelocations.R
 import com.botob.hcafelocations.api.models.Location
 import com.botob.hcafelocations.databinding.FragmentLocationBinding
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.overlay.Marker
-import org.osmdroid.views.overlay.OverlayWithIW
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay
-import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow
 
 /**
  * A fragment representing a single Item detail screen.
@@ -65,17 +62,17 @@ class LocationFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        binding.map?.onResume()
+        binding.map.onResume()
     }
 
     override fun onPause() {
         super.onPause()
 
-        binding.map?.onPause()
+        binding.map.onPause()
     }
 
     private fun initializeMap() {
-        binding.map?.let {
+        binding.map.let {
             it.setTileSource(TileSourceFactory.MAPNIK)
             it.setMultiTouchControls(true)
             RotationGestureOverlay(it).apply {
@@ -86,9 +83,7 @@ class LocationFragment : Fragment() {
     }
 
     private fun updateContent() {
-        binding.toolbarLayout?.title = location.name
-
-        binding.map?.let {
+        binding.map.let {
             val marker = Marker(it)
             marker.setDefaultIcon()
             marker.position = GeoPoint(location.address.latitude, location.address.longitude)
