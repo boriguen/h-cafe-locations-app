@@ -19,8 +19,7 @@
         android:label="Location"
         tools:layout="@layout/fragment_location">
         <argument
-            android:name="item_id"
-            android:defaultValue=""
-            app:argType="string" />
+            android:name="location"
+            app:argType="com.botob.hcafelocations.api.models.Location" />
     </fragment>
 </navigation>

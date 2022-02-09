@@ -24,13 +24,13 @@ class LocationFragment : Fragment() {
          * The fragment argument representing the item ID that this fragment
          * represents.
          */
-        const val ARG_LOCATION = "location_name"
+        const val ARG_LOCATION = "location"
     }
 
     /**
      * The placeholder content this fragment is presenting.
      */
-    private lateinit var location: Location
+    private var location: Location? = null
 
     private lateinit var binding: FragmentLocationBinding
 
@@ -72,17 +72,29 @@ class LocationFragment : Fragment() {
     }
 
     private fun initializeMap() {
-        binding.map.let {
-            it.setTileSource(TileSourceFactory.MAPNIK)
-            it.setMultiTouchControls(true)
-            RotationGestureOverlay(it).apply {
-                isEnabled = true
-                it.overlays.add(this)
+        location?.let {
+            binding.map.let {
+                it.visibility = View.VISIBLE
+                it.setTileSource(TileSourceFactory.MAPNIK)
+                it.setMultiTouchControls(true)
+                RotationGestureOverlay(it).apply {
+                    isEnabled = true
+                    it.overlays.add(this)
+                }
             }
         }
     }
 
     private fun updateContent() {
+        location?.let { location ->
+            updateMap(location)
+
+            binding.locationNameText.text = location.name
+            binding.locationAddressText.text = location.address.formattedAddress
+        }
+    }
+
+    private fun updateMap(location: Location) {
         binding.map.let {
             val marker = Marker(it)
             marker.setDefaultIcon()

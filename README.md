@@ -36,9 +36,17 @@ For more reliable mapping services and customer support, it would be better to l
 
 ### Layout
 
-UI layouts are in XML but a migration to Compose could be beneficial as the industry moves towards it.  
+UI layouts are in XML but a migration to Compose could be beneficial as the industry moves towards it.
+
+Both Phone and Tablet screens are supported, the tablet adaptation being that the list of locations remains visible on the left side.
+
+### Local persistence
+
+TODO.
 
 ### Dependency injection
+
+TODO.
 
 ## Legal
 

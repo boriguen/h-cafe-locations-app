@@ -11,8 +11,7 @@
         tools:layout="@layout/fragment_location">
         <argument
             android:name="location"
-            android:defaultValue=""
-            app:argType="serializable" />
+            app:argType="com.botob.hcafelocations.api.models.Location" />
     </fragment>
 
 </navigation>
