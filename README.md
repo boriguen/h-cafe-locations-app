@@ -48,7 +48,7 @@ Both Phone and Tablet screens are supported, the tablet adaptation being that th
 
 ### Local persistence
 
-TODO.
+The Room library is leveraged to persist the restaurant data locally. MongoDB Realm could have been a fair option as well.
 
 ### Dependency injection
 

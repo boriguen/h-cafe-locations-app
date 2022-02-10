@@ -9,5 +9,5 @@ class Location(
     @SerializedName("address")
     var address: Address,
     @SerializedName("name")
-    var name: String?,
+    var name: String?
 ) : Serializable

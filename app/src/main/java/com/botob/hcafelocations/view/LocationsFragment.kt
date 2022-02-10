@@ -66,7 +66,8 @@ class LocationsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProvider(requireActivity())[LocationsViewModel::class.java]
+        viewModel = ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+            .create(LocationsViewModel::class.java)
     }
 
     override fun onCreateView(
