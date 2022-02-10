@@ -8,6 +8,6 @@ data class Address(
     @PrimaryKey val addressId: Int,
     val latitude: Double,
     val longitude: Double,
-    val addressName: String,
+    val addressName: String?,
     val formattedAddress: String
 )

@@ -11,7 +11,7 @@ data class Address(
     @SerializedName("longitude")
     var longitude: Double,
     @SerializedName("name")
-    var name: String,
+    var name: String?,
     @SerializedName("formatted_address")
     var formattedAddress: String
 ) : Serializable

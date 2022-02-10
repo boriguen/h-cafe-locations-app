@@ -11,7 +11,7 @@ class RestaurantRemoteRepository(private val api: ChowNowApi = ChowNowApi.newIns
     /**
      *
      */
-    override suspend fun get(id: Int): Restaurant {
+    override suspend fun get(id: Int): Restaurant? {
         return api.fetchRestaurant(id)
     }
 }

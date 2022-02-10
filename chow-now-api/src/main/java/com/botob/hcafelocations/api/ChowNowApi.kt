@@ -32,5 +32,5 @@ interface ChowNowApi {
      * Fetches the restaurant of given ID.
      */
     @GET("company/{id}")
-    suspend fun fetchRestaurant(@Path("id") restaurantId: Int): Restaurant
+    suspend fun fetchRestaurant(@Path("id") restaurantId: Int): Restaurant?
 }

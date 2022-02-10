@@ -4,6 +4,9 @@ import com.botob.hcafelocations.api.models.Address
 import com.botob.hcafelocations.api.models.Location
 import com.botob.hcafelocations.api.models.Restaurant
 import com.botob.hcafelocations.persistence.RestaurantDao
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import com.botob.hcafelocations.persistence.entities.Address as LocalAddress
 import com.botob.hcafelocations.persistence.entities.Location as LocalLocation
 import com.botob.hcafelocations.persistence.entities.Restaurant as LocalRestaurant
@@ -16,41 +19,38 @@ class RestaurantLocalRepository(private val restaurantDao: RestaurantDao) : Rest
     /**
      *
      */
-    override suspend fun get(id: Int): Restaurant {
-        val result = restaurantDao.getRestaurantWithLocations(id.toString())
-        val localRestaurant = result.first().restaurant
-        val localLocations = result.first().locations
-
-        val address = localRestaurant.address.let {
-            Address(it.addressId, it.latitude, it.longitude, it.addressName, it.formattedAddress)
+    override suspend fun get(id: Int): Restaurant? {
+        val deferred = CoroutineScope(Dispatchers.IO).async {
+            restaurantDao.getRestaurantWithLocations(id.toString())
         }
 
-        val locations = localLocations.map { location ->
-            val locationAddress = location.address.let {
-                Address(it.addressId, it.latitude, it.longitude, it.addressName, it.formattedAddress)
+        val result = deferred.await()
+        if (result.isNotEmpty()) {
+            val localRestaurant = result.first().restaurant
+
+            val address = createAddress(localRestaurant.address)
+
+            val locations = localRestaurant.locations.map { location ->
+                val locationAddress = createAddress(location.address)
+                Location(location.locationId, locationAddress, location.locationName)
             }
-            Location(location.locationId, locationAddress, location.locationName)
-        }
 
-        return Restaurant(
-            localRestaurant.restaurantId,
-            address,
-            locations,
-            localRestaurant.restaurantName
-        )
+            return Restaurant(
+                localRestaurant.restaurantId,
+                address,
+                locations,
+                localRestaurant.restaurantName
+            )
+        } else {
+            return null
+        }
     }
 
     /**
      *
      */
     override suspend fun put(restaurant: Restaurant) {
-        val localAddress = LocalAddress(
-            restaurant.address.id,
-            restaurant.address.latitude,
-            restaurant.address.longitude,
-            restaurant.address.name,
-            restaurant.address.formattedAddress
-        )
+        val localAddress = createLocalAddress(restaurant.address)
 
         val localLocations = restaurant.locations.map { location ->
             val locationAddress = location.address.let {
@@ -67,5 +67,25 @@ class RestaurantLocalRepository(private val restaurantDao: RestaurantDao) : Rest
         )
 
         restaurantDao.putRestaurant(localRestaurant)
+    }
+
+    private fun createAddress(localAddress: LocalAddress): Address {
+        return Address(
+            localAddress.addressId,
+            localAddress.latitude,
+            localAddress.longitude,
+            localAddress.addressName,
+            localAddress.formattedAddress
+        )
+    }
+
+    private fun createLocalAddress(address: Address): LocalAddress {
+        return LocalAddress(
+            address.id,
+            address.latitude,
+            address.longitude,
+            address.name,
+            address.formattedAddress
+        )
     }
 }

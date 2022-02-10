@@ -11,7 +11,7 @@ import com.botob.hcafelocations.persistence.entities.Restaurant
 
 @Database(
     entities = [Restaurant::class, Address::class, Location::class],
-    version = 1
+    version = 2
 )
 @TypeConverters(Converters::class)
 abstract class RestaurantDatabase : RoomDatabase() {
@@ -31,7 +31,9 @@ abstract class RestaurantDatabase : RoomDatabase() {
                     context.applicationContext,
                     RestaurantDatabase::class.java,
                     "restaurant_database"
-                ).build()
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = instance
                 return instance
             }

@@ -11,7 +11,7 @@ interface RestaurantRepository {
      *
      * @return the matching [Restaurant].
      */
-    suspend fun get(id: Int): Restaurant
+    suspend fun get(id: Int): Restaurant?
 
     /**
      * Puts a [Restaurant] in the store.
